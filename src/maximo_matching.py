@@ -14,17 +14,19 @@ class MaximoMatching(object):
         self.grafo_bipartito = grafo_bipartito
         self.grafo_residual = grafo_bipartito
 
-    def encontrar_maximo_matching(self, grafo_bipartito: GrafoBipartito):
-        for node in grafo_bipartito.group_origin.get_nodes():
-            return True
-
-    def unir_origen_con_destino(self):
-        return True
-
     def maximo_flujo(self):
         path = []
+        count: int = 0
         path = self.buscar_trayectoria_posible()
-        self.actualizar_grafo_residual()
+        if len(path) > 0:
+            self.actualizar_grafo_residual(path)
+            self.maximo_flujo()
+        else:
+            for outgoing_path in self.grafo_residual.source.outgoing_paths:
+                if outgoing_path.weight == 1:
+                    count = count + 1
+        if count > 0:
+            print(count)
 
     def buscar_trayectoria_posible(self):
         available_path: list = []
@@ -39,8 +41,8 @@ class MaximoMatching(object):
         return available_path
 
 
-    def actualizar_grafo_residual(self):
-        return True
+    def actualizar_grafo_residual(self, nodes: 'list of Nodes'):
+        self.grafo_residual.update_path(nodes, 1)
 
 
     def depth_first_search(self, start: Node, walkthrough: list):
@@ -49,6 +51,7 @@ class MaximoMatching(object):
                 if neighbor.weight < neighbor.capacity:
                     walkthrough.append(self.grafo_bipartito.find_node_by_name(neighbor.name))
                     self.depth_first_search(self.grafo_bipartito.find_node_by_name(neighbor.name), walkthrough)
+                    break
                 else:
                     walkthrough.clear()
                     self.depth_first_search(self.grafo_bipartito.find_node_by_name(neighbor.name), walkthrough)

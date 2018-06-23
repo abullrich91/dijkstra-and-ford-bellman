@@ -1,5 +1,6 @@
 from node import Node
 from group import Group
+from path import Path
 
 
 class GrafoBipartito(object):
@@ -26,3 +27,22 @@ class GrafoBipartito(object):
         if self.source.name == name:
             return self.source
         return None
+
+    def update_path(self, walkthrough: 'list of Nodes', new_weight: int = 1):
+        i: int = 0
+        for path in self.source.outgoing_paths:
+            if path.name == walkthrough[0].name:
+                path.weight = 1
+        for node in walkthrough:
+            i = 0
+            path: Path = self.find_outgoing_path_from_node_list(node, walkthrough)
+            if path is not None:
+                path.weight = 1
+
+    def find_outgoing_path_from_node_list(self, current_node: Node, nodes: 'list of Nodes'):
+        outgoing_path: Path = None
+        for path in current_node.outgoing_paths:
+            if any(path.name == node.name for node in nodes):
+                outgoing_path = path
+                break
+        return outgoing_path

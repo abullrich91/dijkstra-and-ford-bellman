@@ -12,7 +12,7 @@ class Node(object):
     def add_outgoing_path(self, path: Path):
         self.outgoing_paths.append(path)
 
-    def remove_incoming_path(self, path: Path):
+    def remove_outgoing_path(self, path: Path):
         if any(path == p for p in self.outgoing_paths):
             self.outgoing_paths.remove(path)
         else:
