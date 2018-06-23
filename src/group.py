@@ -1,4 +1,4 @@
-from .node import Node
+from node import Node
 
 
 class Group(object):
@@ -20,3 +20,9 @@ class Group(object):
 
     def get_nodes(self):
         return self.nodes
+
+    def find_node_by_name(self, name: str):
+        for node in self.nodes:
+            if node.name == name:
+                return node
+        return None
