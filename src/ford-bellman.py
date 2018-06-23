@@ -44,9 +44,8 @@ def informe(pesos,predecesores,grafo,nodo_inicial):
 
     print "-------------------------------------------"
     print "Caminos minimos desde el nodo:", nodo_inicial
-    for nodo in predecesores: # Para cada nodo del grafo
-
-        for vecino in predecesores[nodo]: #Para cada vecino de un nodo
+    for nodo in predecesores:
+        for vecino in predecesores[nodo]:
             print "Nodo Destino: ", nodo, "Anterior:", vecino, "Costo Camino Minimo:", pesos[nodo]
 
 
