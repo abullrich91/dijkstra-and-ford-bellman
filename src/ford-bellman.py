@@ -1,5 +1,4 @@
-def chequear_minimo(nodo, vecino, grafo, pesos, predecesor):
-    # If the distance between the nodo and the neighbour is lower than the one I have now
+def chequear_minimo(nodo, vecino, grafo, pesos, predecesor):    
     if pesos[nodo] + grafo[nodo][vecino] < pesos[vecino]:
         pesos[vecino]  = pesos[nodo] + grafo[nodo][vecino]
         predecesor[vecino] = nodo
