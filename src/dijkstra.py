@@ -64,13 +64,19 @@ class Dijkstra(object):
             self.paso += 1
 
 grafo = []
-A = {'Nodo': 'A', 'C': 1, 'D': 2}
-B = {'Nodo': 'B', 'C': 2, 'F': 3}
-C = {'Nodo': 'C', 'A': 1, 'B': 2, 'D': 1, 'E': 3}
-D = {'Nodo': 'D', 'A': 2, 'C': 1, 'G': 1}
-E = {'Nodo': 'E', 'C': 3, 'F': 2}
-F = {'Nodo': 'F', 'B': 3, 'E': 2, 'G': 1}
-G = {'Nodo': 'G', 'D': 1, 'F': 1}
+A = {'Nodo': 'A', 'C': 5, 'F': 7, 'J': 12}
+B = {'Nodo': 'B', 'E': 2, 'G': 1, 'H': 4}
+C = {'Nodo': 'C', 'A': 5, 'D': 3}
+D = {'Nodo': 'D', 'F': 6, 'E': 0, 'C': 3}
+E = {'Nodo': 'E', 'D': 0, 'B': 2, 'G': 5}
+F = {'Nodo': 'F', 'A': 7, 'D': 6, 'J': 0, 'H': 7}
+G = {'Nodo': 'G', 'B': 1, 'E': 5}
+H = {'Nodo': 'H', 'B': 4, 'F': 7, 'J': 2, 'I': 1}
+I = {'Nodo': 'I', 'H': 1, 'J': 8}
+J = {'Nodo': 'J', 'A': 12, 'F': 0, 'H': 2, 'I': 8}
+
+
+
 grafo.append(A)
 grafo.append(B)
 grafo.append(C)
@@ -78,6 +84,10 @@ grafo.append(D)
 grafo.append(E)
 grafo.append(F)
 grafo.append(G)
+grafo.append(H)
+grafo.append(I)
+grafo.append(J)
 
 Dijkstra = Dijkstra(grafo)
-Dijkstra.camino_minimo('A', 'F')
+Dijkstra.camino_minimo('A', 'B')
+    
