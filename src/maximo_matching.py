@@ -49,6 +49,7 @@ class MaximoMatching(object):
                 if neighbor.weight < neighbor.capacity:
                     walkthrough.append(self.grafo_bipartito.find_node_by_name(neighbor.name))
                     self.depth_first_search(self.grafo_bipartito.find_node_by_name(neighbor.name), walkthrough)
+                    break
                 else:
                     walkthrough.clear()
                     self.depth_first_search(self.grafo_bipartito.find_node_by_name(neighbor.name), walkthrough)
@@ -61,6 +62,7 @@ group_a = Group('A', [
     Node('A2', [Path('B2', 0, math.inf), Path('B3', 0, math.inf)]),
     Node('A3', [Path('B3', 0, math.inf), Path('B4', 0, math.inf)]),
     Node('A4', [Path('B4', 0, math.inf)])
+
 ])
 group_b = Group('B', [
     Node('B1', [Path('T', 0, 1)]),
