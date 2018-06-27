@@ -37,6 +37,13 @@ class MaximoMatching(object):
                                         available_path)
                 if len(available_path) > 0:
                     available_path.insert(0, self.grafo_residual.group_origin.find_node_by_name(outgoing_path.name))
+                    self.recorridos.append(available_path)
+                    for recorrido in self.recorridos:
+                        print("[", end="")
+                        for nodo in recorrido:
+                            print(nodo.name, end=",")
+                        print("]", end=";")
+                    print("")
                     break
         return available_path
 

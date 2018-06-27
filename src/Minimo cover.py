@@ -1,57 +1,84 @@
-import itertools
+from collections import defaultdict
+import math
 
-
-class Vertex_Cover:
+class Graph:
 
     def __init__(self, graph):
-        self.graph = graph
+        self.graph = graph  # residual graph
+        self.org_graph = [i[:] for i in graph]
+        self.ROW = len(graph)
+        self.COL = len(graph[0])
 
-    def validity_check(self, cover):
-        is_valid = True
-        for i in range(len(self.graph)):
-            for j in range(i+1, len(self.graph[i])):
-                if self.graph[i][j] == 1 and cover[i] != '1' and cover[j] != '1':
-                    return False
+    def BFS(self, s, t, parent):
+        visited = [False] * (self.ROW)
+        queue = []
+        queue.append(s)
+        visited[s] = True
+        while queue:
+            u = queue.pop(0)
+            for ind, val in enumerate(self.graph[u]):
+                if visited[ind] == False and val > 0:
+                    queue.append(ind)
+                    visited[ind] = True
+                    parent[ind] = u
+        return True if visited[t] else False
+    def minCut(self, source, sink):
+        parent = [-1] * (self.ROW)
+        max_flow = 0
+        while self.BFS(source, sink, parent):
+            path_flow = float("Inf")
+            s = sink
+            while (s != source):
+                path_flow = min(path_flow, self.graph[parent[s]][s])
+                s = parent[s]
+            max_flow += path_flow
+            v = sink
+            while (v != source):
+                u = parent[v]
+                self.graph[u][v] -= path_flow
+                self.graph[v][u] += path_flow
+                v = parent[v]
+        for i in range(self.ROW):
+            for j in range(self.COL):
+                if self.graph[i][j] > 0 and self.org_graph[i][j] == 0:
+                    if i < sink and j > source :
+                      print (str(j) + " - " + str(i))
 
-        return is_valid
 
-    def vertex_cover_naive(self):
-        n = len(self.graph)
-        minimum_vertex_cover = n
-        a = list(itertools.product(*["01"] * n))
-        for i in a:
-            if Vertex_Cover.validity_check(ins, i):
-                counter = 0
-                for value in i:
-                    if value == '1':
-                        counter += 1
-                minimum_vertex_cover = min(counter, minimum_vertex_cover)
 
-        return minimum_vertex_cover
+#grafos
+practGraph = [[0, 1, 1, 1, 1, 0, 0, 0, 0, 0], #0, source
+              [0, 0, 0, 0, 0, math.inf, math.inf, 0, 0, 0],#1,A1
+              [0, 0, 0, 0, 0, 0, math.inf, math.inf, 0, 0],#2 A2
+              [0, 0, 0, 0, 0, 0, 0, math.inf, math.inf, 0],#3 A3
+              [0, 0, 0, 0, 0, 0, 0, 0, math.inf, 0],#4 A4
+              [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],#5 B1
+              [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],#6 B2
+              [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],#7 B3
+              [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],#8 B4
+              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]#9 sink/terminal
 
-if __name__ == '__main__':
-    graph =[[0, 1, 1, 1, 1],
-            [1, 0, 0, 0, 1],
-            [1, 0, 0, 1, 1],
-            [1, 0, 1, 0, 1],
-            [1, 1, 1, 1, 0]]
-    testgraph = [[1, 1, 0, 0],
-                 [0, 1, 1, 0],
-                 [0, 0, 1, 1],
-                 [0, 0, 0, 1]]
-    practGraph = [[0, 1, 0, 1, 0, 0],
-                  [1, 0, 0, 0, 0, 1],
-                  [0, 1, 1, 0, 0, 0],
-                  [0, 0, 0, 0, 1, 0],
-                  [0, 0, 0, 1, 0, 1],
-                  [1, 0, 0, 0, 0, 1],
-                  [0, 1, 0, 0, 1, 0]]
-    bpGraph = [[0, 1, 1, 0, 0, 0],
-               [0, 0, 0, 0, 0, 0],
-               [1, 0, 0, 1, 0, 0],
-               [0, 0, 1, 0, 0, 0],
-               [0, 0, 1, 1, 0, 0],
-               [0, 0, 0, 0, 0, 1]]
-    ins = Vertex_Cover(bpGraph)
+testGraph = [[0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],#0,source
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, math.inf, 0, math.inf, 0, 0, 0],#1,p
+             [0, 0, 0, 0, 0, 0, 0, 0, math.inf, 0, 0, 0, 0, math.inf, 0],#2,p
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, math.inf, math.inf, 0, 0, 0, 0],#3,p
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, math.inf, 0, 0],#4 p
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, math.inf, 0, math.inf, 0],#5 p
+             [0, 0, 0, 0, 0, 0, 0, 0, math.inf, 0, 0, 0, 0, math.inf, 0],#6 p
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, math.inf, 0, 0, math.inf, 0, 0],#7 p
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],#8 q
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],#9 q
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],#10 q
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],#11 q
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],#12 q
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],#13 q
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]] #14 terminal
 
-    print ('the minimum vertex-cover is:', Vertex_Cover.vertex_cover_naive(ins))
+
+g = Graph(practGraph)
+
+source = 0
+sink = 9
+g.minCut(source, sink)
+
+
